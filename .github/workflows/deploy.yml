@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main 
+      - main
 
 permissions:
   contents: read
@@ -34,6 +34,9 @@ jobs:
         run: npm ci
 
       - name: Compilar proyecto (Build)
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
         run: npm run build
 
       - name: Configurar Páginas de GitHub
@@ -42,7 +45,7 @@ jobs:
       - name: Subir artefacto compilado
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist' 
+          path: './dist'
 
       - name: Desplegar a GitHub Pages
         id: deployment
